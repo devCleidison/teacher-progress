@@ -6,6 +6,10 @@ export default {
 	],
 	theme: {
 		extend: {},
+		fontFamily: {
+			sans: ['Inter', 'sans-serif'],
+			brand: ['Lobster', 'cursive'],
+		}
 	},
 	plugins: [],
 };
