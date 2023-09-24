@@ -1,9 +1,10 @@
 import { ComponentProps } from 'react';
+import { twMerge } from 'tailwind-merge';
 
-type IForm = ComponentProps<'form'>
+type IForm = ComponentProps<'form'>;
 
-export function Form(props: IForm) {
+export function Form({ className, ...props }: IForm) {
 	return (
-		<form {...props} className='flex flex-col gap-3'/>
+		<form {...props} className={twMerge('flex flex-col gap-3', className)} />
 	);
 }
