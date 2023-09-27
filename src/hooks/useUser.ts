@@ -16,7 +16,7 @@ export function useUser() {
 		localStorage.setItem('tpUser', JSON.stringify(user));
 	}
 
-	async function getUserAtLocalStorage() {
+	async function getUserFromLocalStorage() {
 		const response = localStorage.getItem('tpUser');
 
 		if (response) {
@@ -33,7 +33,7 @@ export function useUser() {
 	return {
 		getUser,
 		saveUserOnLocalStorage,
-		getUserAtLocalStorage,
+		getUserFromLocalStorage,
 		removeUserFromLocalStorage,
 	};
 }

@@ -33,7 +33,7 @@ export function AuthProvider({ children }: IAuthProvider) {
 	const {
 		getUser,
 		saveUserOnLocalStorage,
-		getUserAtLocalStorage,
+		getUserFromLocalStorage,
 		removeUserFromLocalStorage,
 	} = useUser();
 
@@ -76,7 +76,7 @@ export function AuthProvider({ children }: IAuthProvider) {
 			if (isLogged) {
 				setIsAuthenticated(true);
 
-				const response = await getUserAtLocalStorage();
+				const response = await getUserFromLocalStorage();
 				setUser(response);
 			} else {
 				setIsAuthenticated(false);
