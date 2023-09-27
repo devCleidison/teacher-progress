@@ -1,13 +1,20 @@
-import { doc, getDoc } from 'firebase/firestore';
+import {
+	doc,
+	getDoc,
+} from 'firebase/firestore';
 import { db } from '../services/firebase';
+import { useError } from './useError';
 
 export function useUser() {
+	const { setError } = useError();
+
 	async function getUser(userId: string) {
 		const response = await getDoc(doc(db, 'users', userId));
 
 		if (response.exists()) {
 			return response.data() as IUser;
 		} else {
+			setError('Os dados do usuário não foram encontrados!');
 			return null;
 		}
 	}
@@ -22,6 +29,7 @@ export function useUser() {
 		if (response) {
 			return JSON.parse(response) as IUser;
 		} else {
+			setError('Os dados do usuário não foram encontrados!');
 			return null;
 		}
 	}
