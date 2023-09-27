@@ -28,7 +28,7 @@ export function AuthProvider({ children }: IAuthProvider) {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const { setError } = useError();
-	const { getUser, saveUserOnLocalStorage } = useUser();
+	const { getUser, saveUserOnLocalStorage, getUserAtLocalStorage } = useUser();
 
 	async function handleLogin(email: string, password: string) {
 		setIsLoading(true);
@@ -56,6 +56,9 @@ export function AuthProvider({ children }: IAuthProvider) {
 		onAuthStateChanged(auth, async (isLogged) => {
 			if(isLogged) {
 				setIsAuthenticated(true);
+
+				const response = await getUserAtLocalStorage();
+				setUser(response);
 			} else {
 				setIsAuthenticated(false);
 				setUser(null);
