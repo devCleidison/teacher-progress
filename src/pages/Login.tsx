@@ -4,6 +4,7 @@ import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import { BrandLogo } from '../components/BrandLogo';
 import { Form } from '../components/Form';
 import { Input, handlePasswordInputType } from '../components/Input';
+import { useAuth } from '../hooks/useAuth';
 
 export function Login() {
 	const [email, setEmail] = useState('');
@@ -11,12 +12,16 @@ export function Login() {
 
 	const [isShowPassword, setIsShowPassword] = useState(false);
 
+	const { handleLogin } = useAuth();
+
 	function handleSubmit(e: FormEvent) {
 		e.preventDefault();
 
 		if(!email || !password) {
 			return;
 		}
+
+		handleLogin(email, password);
 	}
 
 	return (
