@@ -12,5 +12,9 @@ export function useUser() {
 		}
 	}
 
-	return { getUser };
+	async function saveUserOnLocalStorage(user: IUser) {
+		localStorage.setItem('tpUser', JSON.stringify(user));
+	}
+
+	return { getUser, saveUserOnLocalStorage };
 }
