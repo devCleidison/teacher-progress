@@ -5,7 +5,7 @@ export function useUser() {
 	async function getUser(userId: string) {
 		const response = await getDoc(doc(db, 'users', userId));
 
-		if(response.exists()) {
+		if (response.exists()) {
 			return response.data() as IUser;
 		} else {
 			return null;
@@ -19,12 +19,21 @@ export function useUser() {
 	async function getUserAtLocalStorage() {
 		const response = localStorage.getItem('tpUser');
 
-		if(response) {
+		if (response) {
 			return JSON.parse(response) as IUser;
 		} else {
 			return null;
 		}
 	}
 
-	return { getUser, saveUserOnLocalStorage, getUserAtLocalStorage };
+	async function removeUserFromLocalStorage() {
+		localStorage.removeItem('tpUser');
+	}
+
+	return {
+		getUser,
+		saveUserOnLocalStorage,
+		getUserAtLocalStorage,
+		removeUserFromLocalStorage,
+	};
 }
