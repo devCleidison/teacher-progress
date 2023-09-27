@@ -81,6 +81,7 @@ export function AuthProvider({ children }: IAuthProvider) {
 			} else {
 				setIsAuthenticated(false);
 				setUser(null);
+				await removeUserFromLocalStorage();
 			}
 		});
 	}, [auth]);
