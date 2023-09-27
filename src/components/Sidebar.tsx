@@ -2,8 +2,11 @@ import { NavLink } from 'react-router-dom';
 import { Home, LogOut } from 'lucide-react';
 
 import { BrandLogo } from './BrandLogo';
+import { useAuth } from '../hooks/useAuth';
 
 export function Sidebar() {
+	const { handleLogout } = useAuth();
+
 	return (
 		<aside className='min-h-screen w-64 fixed flex flex-col items-center justify-between py-10 bg-zinc-100'>
 			<BrandLogo size='md' />
@@ -26,7 +29,11 @@ export function Sidebar() {
 				</ul>
 			</nav>
 
-			<button type='button' className='flex items-center gap-2 text-lg'>
+			<button
+				type='button'
+				className='flex items-center gap-2 text-lg'
+				onClick={handleLogout}
+			>
 				<LogOut />
 				Sair
 			</button>
