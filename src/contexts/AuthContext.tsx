@@ -7,6 +7,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../services/firebase';
 import { useError } from '../hooks/useError';
+import { useUser } from '../hooks/useUser';
 
 type IAuthContext = {
 	isAuthenticated: boolean;
@@ -27,6 +28,7 @@ export function AuthProvider({ children }: IAuthProvider) {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const { setError } = useError();
+	const { getUser } = useUser();
 
 	async function handleLogin(email: string, password: string) {
 		setIsLoading(true);
@@ -40,6 +42,9 @@ export function AuthProvider({ children }: IAuthProvider) {
 			.finally(async () => {
 				if(auth.currentUser) {
 					setIsAuthenticated(true);
+
+					const response = await getUser(auth.currentUser.uid);
+					setUser(response);
 				}
 				setIsLoading(false);
 			});
