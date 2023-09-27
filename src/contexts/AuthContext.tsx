@@ -4,6 +4,7 @@ import {
 	onAuthStateChanged,
 	setPersistence,
 	signInWithEmailAndPassword,
+	signOut,
 } from 'firebase/auth';
 import { auth } from '../services/firebase';
 import { useError } from '../hooks/useError';
@@ -14,6 +15,7 @@ type IAuthContext = {
 	user: IUser | null;
 	isLoading: boolean;
 	handleLogin: (email: string, password: string) => Promise<void>;
+	handleLogout: () => Promise<void>;
 };
 
 type IAuthProvider = {
@@ -28,7 +30,12 @@ export function AuthProvider({ children }: IAuthProvider) {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const { setError } = useError();
-	const { getUser, saveUserOnLocalStorage, getUserAtLocalStorage } = useUser();
+	const {
+		getUser,
+		saveUserOnLocalStorage,
+		getUserAtLocalStorage,
+		removeUserFromLocalStorage,
+	} = useUser();
 
 	async function handleLogin(email: string, password: string) {
 		setIsLoading(true);
@@ -40,7 +47,7 @@ export function AuthProvider({ children }: IAuthProvider) {
 				setError('Usuário ou senha inválidos!');
 			})
 			.finally(async () => {
-				if(auth.currentUser) {
+				if (auth.currentUser) {
 					setIsAuthenticated(true);
 
 					const response = await getUser(auth.currentUser.uid);
@@ -52,9 +59,21 @@ export function AuthProvider({ children }: IAuthProvider) {
 			});
 	}
 
+	async function handleLogout() {
+		await signOut(auth)
+			.catch(() => {
+				setError('Erro ao sair!');
+			})
+			.finally(async () => {
+				setIsAuthenticated(false);
+				setUser(null);
+				await removeUserFromLocalStorage();
+			});
+	}
+
 	useEffect(() => {
 		onAuthStateChanged(auth, async (isLogged) => {
-			if(isLogged) {
+			if (isLogged) {
 				setIsAuthenticated(true);
 
 				const response = await getUserAtLocalStorage();
@@ -64,11 +83,11 @@ export function AuthProvider({ children }: IAuthProvider) {
 				setUser(null);
 			}
 		});
-	},[auth]);
+	}, [auth]);
 
 	return (
 		<AuthContext.Provider
-			value={{ isAuthenticated, user, isLoading, handleLogin }}
+			value={{ isAuthenticated, user, isLoading, handleLogin, handleLogout }}
 		>
 			{children}
 		</AuthContext.Provider>
