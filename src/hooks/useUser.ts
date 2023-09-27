@@ -16,5 +16,15 @@ export function useUser() {
 		localStorage.setItem('tpUser', JSON.stringify(user));
 	}
 
-	return { getUser, saveUserOnLocalStorage };
+	async function getUserAtLocalStorage() {
+		const response = localStorage.getItem('tpUser');
+
+		if(response) {
+			return JSON.parse(response) as IUser;
+		} else {
+			return null;
+		}
+	}
+
+	return { getUser, saveUserOnLocalStorage, getUserAtLocalStorage };
 }
