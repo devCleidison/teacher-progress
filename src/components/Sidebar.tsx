@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom';
-import { Home, LogOut } from 'lucide-react';
+import { Home, LogOut, School } from 'lucide-react';
 
 import { BrandLogo } from './BrandLogo';
 import { useAuth } from '../hooks/useAuth';
 
 export function Sidebar() {
-	const { handleLogout } = useAuth();
+	const { handleLogout, user } = useAuth();
 
 	return (
 		<aside className='min-h-screen w-64 fixed flex flex-col items-center justify-between py-10 bg-zinc-100'>
@@ -26,6 +26,24 @@ export function Sidebar() {
 							Início
 						</NavLink>
 					</li>
+
+					{user?.type === 'admin' && (
+						<>
+							<li>
+								<NavLink
+									to='/schools'
+									className={({ isActive }) =>
+										isActive
+											? 'flex items-center gap-2 text-lg font-medium px-4 py-2 rounded text-zinc-100  bg-orange-500'
+											: 'flex items-center gap-2 text-lg font-medium px-4 py-2 rounded'
+									}
+								>
+									<School />
+									Escolas
+								</NavLink>
+							</li>
+						</>
+					)}
 				</ul>
 			</nav>
 
