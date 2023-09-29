@@ -7,6 +7,7 @@ import {
 import { Login } from './pages/Login';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
+import { Schools } from './pages/Schools';
 
 export const privateAdminRoutes = createBrowserRouter(
 	createRoutesFromElements(
@@ -18,6 +19,15 @@ export const privateAdminRoutes = createBrowserRouter(
 				element={
 					<Layout title='Início'>
 						<Home />
+					</Layout>
+				}
+			/>
+
+			<Route
+				path='schools'
+				element={
+					<Layout title='Escolas'>
+						<Schools />
 					</Layout>
 				}
 			/>
