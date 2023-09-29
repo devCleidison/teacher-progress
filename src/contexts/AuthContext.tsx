@@ -9,6 +9,7 @@ import {
 import { auth } from '../services/firebase';
 import { useError } from '../hooks/useError';
 import { useUser } from '../hooks/useUser';
+import { useSchool } from '../hooks/useSchool';
 
 type IAuthContext = {
 	isAuthenticated: boolean;
@@ -36,6 +37,7 @@ export function AuthProvider({ children }: IAuthProvider) {
 		getUserFromLocalStorage,
 		removeUserFromLocalStorage,
 	} = useUser();
+	const { removeSchoolsFromLocalStorage } = useSchool();
 
 	async function handleLogin(email: string, password: string) {
 		setIsLoading(true);
@@ -68,6 +70,7 @@ export function AuthProvider({ children }: IAuthProvider) {
 				setIsAuthenticated(false);
 				setUser(null);
 				await removeUserFromLocalStorage();
+				await removeSchoolsFromLocalStorage();
 			});
 	}
 
@@ -82,6 +85,7 @@ export function AuthProvider({ children }: IAuthProvider) {
 				setIsAuthenticated(false);
 				setUser(null);
 				await removeUserFromLocalStorage();
+				await removeSchoolsFromLocalStorage();
 			}
 		});
 	}, [auth]);
