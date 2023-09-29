@@ -7,7 +7,7 @@ import {
 import { Login } from './pages/Login';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
-import { Schools } from './pages/Schools';
+import { ContainerView } from './components/ContainerView';
 
 export const privateAdminRoutes = createBrowserRouter(
 	createRoutesFromElements(
@@ -27,7 +27,7 @@ export const privateAdminRoutes = createBrowserRouter(
 				path='schools'
 				element={
 					<Layout title='Escolas'>
-						<Schools />
+						<ContainerView type='schools' />
 					</Layout>
 				}
 			/>
